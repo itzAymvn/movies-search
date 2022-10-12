@@ -1,57 +1,48 @@
-import {useEffect, useState} from "react";
-import "./index.css"
-import searchIcon from './search.svg'
-import MovieCard from "./MovieCard";
+import React, { useState, useEffect } from "react";
+import MovieCard from "./Component/MovieCard.js";
+import "./App.css";
 
-const App = () => {
+function App() {
+    const [Movies, setMovies] = useState([]);
+    const [Search, setSearch] = useState("Batman");
 
-    const [movies, setMovies] = useState([]);
-    const [searchTerm, setsearchTerm] = useState('');
+    useEffect(() => {
+        let key = "1342a532";
+        const getMovies = async (s) => {
+            const response = await fetch(
+                `https://www.omdbapi.com/?apikey=${key}&s=${s}`
+            );
+            const result = await response.json();
+            setMovies(result.Search);
+        };
+        if (Search) getMovies(Search);
+    }, [Search]);
 
-    const searchMovies = async (title) => {
-        const res = await fetch(`https://www.omdbapi.com/?apikey=1342a532&s=${title}`)
-        const data = await res.json()
-
-        var movieArray = data.Search
-        var sortedMovieArray = movieArray.sort((a,b)=>(b.Year - a.Year))
-        setMovies(sortedMovieArray)
-    }
-
-    useEffect(()=>{
-        searchMovies("Superman");
-    }, []);
-    
     return (
-        <div className="app">
-            <h1>AymvnMovies</h1>
-            <div className="search">
-                <input 
-                    placeholder="Search for movies" 
-                    value={searchTerm}
-                    onChange={(e)=>setsearchTerm(e.target.value)}
-                />
-                <img 
-                    src={searchIcon}
-                    alt="Search"
-                    onClick={()=>searchMovies(searchTerm)}
+        <>
+            <div className="Utils">
+                <h1 className="title">Look for movies !!</h1>
+                <input
+                    className="search"
+                    placeholder="Search for a movie"
+                    type="text"
+                    onChange={(event) => {
+                        setSearch(event.target.value);
+                    }}
                 />
             </div>
-
-            {movies?.length > 0
-                ? (
-                    <div className="container">
-                        {movies.map((movie)=>(
-                            <MovieCard movie={movie}/>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="empty">
-                        <h2>No Movies Found</h2>
-                    </div>
-                )
-            }
-            
-        </div>
+            {typeof Movies !== "undefined" ? (
+                <div className="movies">
+                    {Movies.map((movie, i) =>
+                        movie.Poster !== "N/A" ? (
+                            <MovieCard key={i} movie={movie} />
+                        ) : null
+                    )}
+                </div>
+            ) : (
+                <h1>Not Found</h1>
+            )}
+        </>
     );
 }
 
