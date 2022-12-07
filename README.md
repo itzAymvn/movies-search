@@ -19,4 +19,4 @@ This is a simple movies search engine. It uses the [OMDb API](http://www.omdbapi
 
 # LICENSE
 
-[![License](https://img.shields.io/github/license/itzaymvn/Movies?style=for-the-badge)](<[https://github.com/itzAymvn/Movies/blob/master/LICENSE](https://raw.githubusercontent.com/itzAymvn/Movies/main/LICENSE)>)
+[![GitHub](https://img.shields.io/github/license/ItzAymvn/Movies?color=%238e2be2&style=for-the-badge)](https://github.com/itzAymvn/Movies/blob/main/LICENSE)
